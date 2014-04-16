@@ -39,5 +39,4 @@ Theorem default_default' : hdrespectful _ denoteD default default'.
 Proof.
   repeat red; intros.
   destruct pf; reflexivity.
-Qed
-.
+Qed.
