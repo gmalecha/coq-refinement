@@ -1,4 +1,5 @@
-Require Import Setoid.
+Require Import Coq.Setoids.Setoid.
+Require Import ELRefine.Refinement.
 
 (** The abstract domain **)
 Inductive Parity := Even | Odd.
@@ -43,17 +44,13 @@ Proof.
     destruct p; auto. }
 Qed.
 
-Goal forall a aA b bA,
-       Abstracts aA a ->
-       Abstracts bA b ->
-       Abstracts (plusParity aA bA) (plus a b).
+Theorem plusParity_plus
+: hrespectful Abstracts (hrespectful Abstracts Abstracts) plusParity plus.
 Proof.
-  induction 1; simpl; intros.
-  { destruct bA; assumption. }
-  { destruct bA.
-    { change Odd with (opp Even). rewrite Abstracts_S.
-      constructor. apply H. }
-    { change Even with (opp Odd). rewrite Abstracts_S.
-      constructor. apply H. } }
-  { constructor. auto. }
+  repeat red; intros.
+  induction H; simpl; intros; try solve [ repeat constructor ].
+  { destruct x0; assumption. }
+  { rewrite Abstracts_S.
+    constructor. destruct x0; assumption. }
+  { rewrite <- Abstracts_SS. assumption. }
 Qed.
