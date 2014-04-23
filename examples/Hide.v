@@ -1,4 +1,5 @@
 Require Import ELRefine.Refinement.
+Require Import ELRefine.Relations.
 
 Inductive typ : Type :=
 | tyNat
@@ -69,12 +70,6 @@ Inductive Erases : forall ty, eexpr -> expr ty -> Type :=
                 Erases t c c' ->
                 Erases t (EIf a b c) (If t a' b' c').
 
-Inductive flip {A B : Type} (R : hrelation A B) : hrelation B A :=
-| hflip : forall x y, R x y -> @flip A B R y x.
-
-Inductive id {T : Type} (x : T) : T -> Type :=
-| refl : @id _ x x.
-
 Inductive Inj_option {T : Type} (x : T) : option T -> Type :=
 | Inj_opt : @Inj_option T x (Some x).
 
@@ -92,10 +87,10 @@ Goal @hdrespectful _ _
 Proof.
   red. destruct pf.
   red. intros.
-  destruct X. induction e.
+  red in X. induction X.
   { simpl; constructor. }
   { simpl; constructor. }
-  { simpl. destruct IHe1; destruct IHe2. constructor. }
-  { simpl. destruct IHe1; destruct IHe2; destruct IHe3.
+  { simpl. destruct IHX1; destruct IHX2. constructor. }
+  { simpl. destruct IHX1; destruct IHX2; destruct IHX3.
     destruct (eval a'); constructor. }
 Qed.
