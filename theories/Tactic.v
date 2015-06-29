@@ -1,4 +1,4 @@
-Require Import Refinement.
+Require Import ELRefine.Refinement.
 
 Create HintDb refinements. (** this should be discriminated **)
 
@@ -112,7 +112,5 @@ Section problem_big.
          Rdh (f a b c) (g x y z).
   intros.
   solve_refinement otherwise_assumption.
-  Grab Existential Variables.
-  admit. admit. admit.
-  Defined.
+  Abort.
 End problem_big.

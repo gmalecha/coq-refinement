@@ -5,3 +5,6 @@ syntax: glob
 Makefile.coq
 *~
 .dir-locals.el
+.*.aux
+#*
+.#*

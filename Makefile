@@ -1,19 +1,16 @@
 PROJECT_NAME=coq-ext-refine
 
-all: theories examples
+all: Makefile.coq
+	$(MAKE) -f Makefile.coq
 
-theories:
-	$(MAKE) -C theories
+Makefile.coq: _CoqProject
+	coq_makefile -f _CoqProject -o Makefile.coq
 
-install:
-	$(MAKE) -C theories install
+clean: Makefile.coq
+	$(MAKE) -f Makefile.coq clean
 
-examples: theories
-	$(MAKE) -C examples
-
-clean:
-	$(MAKE) -C theories clean
-	$(MAKE) -C examples clean
+install: Makefile.coq
+	$(MAKE) -f Makefile.coq install
 
 uninstall:
 	$(MAKE) -C theories uninstall
@@ -21,8 +18,5 @@ uninstall:
 
 dist:
 	@ git archive --prefix coq-ext-lib/ HEAD -o $(PROJECT_NAME).tgz
-
-.dir-locals.el: tools/dir-locals.el
-	@ sed s,PWD,$(shell pwd -P),g tools/dir-locals.el > .dir-locals.el
 
 .PHONY: all clean dist theories examples

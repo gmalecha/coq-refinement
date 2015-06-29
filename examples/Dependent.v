@@ -1,4 +1,4 @@
-Require Import Refinement.
+Require Import ELRefine.Refinement.
 
 (** Example of dependent refinement **)
 Definition denote (b : bool) : Type :=
